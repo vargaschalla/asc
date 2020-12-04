@@ -53,16 +53,32 @@ func SetupRouter() *gin.Engine {
 		us.POST("/login", apis.UsersLogin)
 		us.POST("/logout", apis.UsersLogout)
 	}
+	per := r.Group("/per")
+	{
+		per.GET("/persons", apis.PersonasLista)
+		per.POST("/persons", apis.PersonasCreate)
+		per.PUT("/persons/:id", apis.PersonasUpdate)
+		per.DELETE("/persons/:id", apis.PersonasDelete)
+
+	}
+	rol := r.Group("/r")
+	{
+		rol.GET("/rol", apis.RolLista)
+		rol.POST("/rol", apis.RolCreate)
+		rol.PUT("/rol/:id", apis.RolUpdate)
+		rol.DELETE("/rol/:id", apis.RolDelete)
+
+	}
 
 	return r
 }
 
 func connectDB() (c *gorm.DB, err error) {
 
-	dsn := "root:ANTHONY2020ma@tcp(localhost:3306)/test_db?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:ANTHONY2020ma@tcp(localhost:3306)/pruebas?charset=utf8mb4&parseTime=True&loc=Local"
 	conn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
-	conn.AutoMigrate(&models.Tareas{}, &models.Sesiones{}, &models.User{})
+	conn.AutoMigrate(&models.Tareas{}, &models.Sesiones{}, &models.User{}, &models.Persona{}, &models.Rol{})
 
 	if err != nil {
 		panic("failed to connect database" + err.Error())
