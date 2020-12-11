@@ -2,10 +2,8 @@ package models
 
 import "gorm.io/gorm"
 
-type Rol struct {
+type Grado struct {
 	gorm.Model
 	Nombre string `json:"nombre"`
-	Codigo string `json:"codigo"`
 	Estado string `json:"estado"`
-	//Estado int `json:"estado"`
 }

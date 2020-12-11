@@ -53,14 +53,6 @@ func PersonasUpdate(c *gin.Context) {
 		})
 		return
 	}
-	d.Nombre = c.PostForm("nombre")
-	d.Paterno = c.PostForm("paterno")
-	d.Materno = c.PostForm("materno")
-	d.Usuario = c.PostForm("usuario")
-	d.Email = c.PostForm("email")
-	d.Password = c.PostForm("password")
-	d.Edad = 0
-	d.DNI = 0
 	c.BindJSON(&d)
 	conn.Save(&d)
 	c.JSON(http.StatusOK, &d)

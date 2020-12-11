@@ -8,60 +8,62 @@ import (
 	"gorm.io/gorm"
 )
 
-func RolLista(c *gin.Context) {
-	var lis []models.Rol
+func NivelLista(c *gin.Context) {
+	var lis []models.Nivel
 
 	db, _ := c.Get("db")
+
 	conn := db.(gorm.DB)
 
 	conn.Find(&lis)
 	c.JSON(http.StatusOK, gin.H{
-		"msg": "Lista",
+		"msg": "thank you",
 		"r":   lis,
 	})
+
 }
 
-func RolCreate(c *gin.Context) {
-	var p models.Rol
+func NivelCreate(c *gin.Context) {
 	db, _ := c.Get("db")
+
 	conn := db.(gorm.DB)
 
-	if err := c.BindJSON(&p); err != nil {
+	var d models.Nivel
+	//d := models.Person{Name: c.PostForm("name"), Age: c.PostForm("age")}
+	if err := c.BindJSON(&d); err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
+		return
 	}
-	conn.Create(&p)
-	c.JSON(http.StatusOK, &p)
+	conn.Create(&d)
+	c.JSON(http.StatusOK, &d)
 }
 
-func RolUpdate(c *gin.Context) {
-	var d models.Rol
+func NivelUpdate(c *gin.Context) {
 	db, _ := c.Get("db")
 
 	conn := db.(gorm.DB)
 
 	id := c.Param("id")
+	var d models.Nivel
 	if err := conn.First(&d, id).Error; err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
 		return
 	}
-	d.Nombre = c.PostForm("nombre")
-	d.Codigo = c.PostForm("codigo")
-	d.Estado = c.PostForm("estado")
 	c.BindJSON(&d)
 	conn.Save(&d)
 	c.JSON(http.StatusOK, &d)
 }
-func RolDelete(c *gin.Context) {
+func NivelDelete(c *gin.Context) {
 	db, _ := c.Get("db")
 
 	conn := db.(gorm.DB)
 
 	id := c.Param("id")
-	var d models.Rol
+	var d models.Nivel
 
 	if err := conn.Where("id = ?", id).First(&d).Error; err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{

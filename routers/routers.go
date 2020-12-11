@@ -61,12 +61,21 @@ func SetupRouter() *gin.Engine {
 		per.DELETE("/persons/:id", apis.PersonasDelete)
 
 	}
-	rol := r.Group("/r")
+	ro := r.Group("/r")
 	{
-		rol.GET("/rol", apis.RolLista)
-		rol.POST("/rol", apis.RolCreate)
-		rol.PUT("/rol/:id", apis.RolUpdate)
-		rol.DELETE("/rol/:id", apis.RolDelete)
+		ro.GET("/rol", apis.RolLista)
+		ro.POST("/rol", apis.RolCreate)
+		ro.PUT("/rol/:id", apis.RolUpdate)
+		ro.DELETE("/rol/:id", apis.RolDelete)
+
+	}
+
+	ni := r.Group("/n")
+	{
+		ni.GET("/nivel", apis.NivelLista)
+		ni.POST("/nivel", apis.NivelCreate)
+		ni.PUT("/nivel/:id", apis.NivelUpdate)
+		ni.DELETE("/nivel/:id", apis.NivelDelete)
 
 	}
 
@@ -75,10 +84,12 @@ func SetupRouter() *gin.Engine {
 
 func connectDB() (c *gorm.DB, err error) {
 
-	dsn := "root:ANTHONY2020ma@tcp(localhost:3306)/pruebas?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:aracelybriguit@tcp(localhost:3306)/pruebago?charset=utf8mb4&parseTime=True&loc=Local"
 	conn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
-	conn.AutoMigrate(&models.Tareas{}, &models.Sesiones{}, &models.User{}, &models.Persona{}, &models.Rol{})
+	conn.AutoMigrate(&models.Tareas{}, &models.Sesiones{},
+		&models.User{}, &models.Persona{}, &models.Rol{},
+		&models.Nivel{})
 
 	if err != nil {
 		panic("failed to connect database" + err.Error())
